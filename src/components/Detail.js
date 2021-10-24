@@ -32,8 +32,12 @@ const Detail = () => {
           <img src="assets/images/group-icon.png" alt="Group Icon" />
         </GroupWathcbutton>
       </Controls>
-      <SubTitle>2018 | It is a subtitle</SubTitle>
-      <Description>It is a description</Description>
+      <SubTitle>Keep your family safe with easy parental controls</SubTitle>
+      <Description>
+        Host virtual movie nights with GroupWatch. Pause, rewind and react with
+        up to six personal friends. To invite or be invited to join GroupWatch,
+        subscription is required
+      </Description>
     </Container>
   );
 };
@@ -135,4 +139,5 @@ const Description = styled.p`
   font-size: 20px;
   margin-top: 16px;
   color: rgb(249, 249, 249);
+  max-width: 760px;
 `;
