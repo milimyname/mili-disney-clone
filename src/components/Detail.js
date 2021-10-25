@@ -1,43 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import db from "../firebase";
 
 const Detail = () => {
+  const { id } = useParams();
+  const [detailData, setDetailData] = useState({});
+
+  useEffect(() => {
+    db.collection("movies")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) setDetailData(doc.data());
+        else alert("No such doc in firebase 🔥");
+      })
+      .catch((err) => {
+        console.log("Error getting doc:", err);
+      });
+  }, [id]);
+
   return (
     <Container>
+      {}
       <Background>
-        <img
-          src="https://i.ytimg.com/vi/7rspQR7rhf0/maxresdefault.jpg"
-          alt="Back Img"
-        />
+        <img src={detailData.backgroundImg} alt={detailData.title} />
       </Background>
       <ImgTitle>
-        <img
-          src="https://1.bp.blogspot.com/-SFIcHjsKs6w/WsGKiBqr8sI/AAAAAAAAVx0/mrXzRPfHjOktGXKq9UIPF-ieUs3jiKejgCLcBGAs/s1600/Pixar-Bao-Logo.jpg"
-          alt="Img Title"
-        />
+        <img src={detailData.titleImg} alt={detailData.title} />
       </ImgTitle>
       <Controls>
         <Playbutton>
-          <img src="assets/images/play-icon-black.png" alt="Play Icon" />
+          <img src="/assets/images/play-icon-black.png" alt="Play Icon" />
           <span>PLAY</span>
         </Playbutton>
         <Trailerbutton>
-          <img src="assets/images/play-icon-white.png" alt="Play Icon" />
+          <img src="/assets/images/play-icon-white.png" alt="Play Icon" />
           <span>TRAILER</span>
         </Trailerbutton>
         <Addbutton>
           <span>+</span>
         </Addbutton>
         <GroupWathcbutton>
-          <img src="assets/images/group-icon.png" alt="Group Icon" />
+          <img src="/assets/images/group-icon.png" alt="Group Icon" />
         </GroupWathcbutton>
       </Controls>
-      <SubTitle>Keep your family safe with easy parental controls</SubTitle>
-      <Description>
-        Host virtual movie nights with GroupWatch. Pause, rewind and react with
-        up to six personal friends. To invite or be invited to join GroupWatch,
-        subscription is required
-      </Description>
+      <SubTitle>{detailData.subtitle}</SubTitle>
+      <Description>{detailData.description}</Description>
     </Container>
   );
 };
@@ -63,6 +72,9 @@ const Background = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    @media (max-width: 768px) {
+      width: initial;
+    }
   }
 `;
 
